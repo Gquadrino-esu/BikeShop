@@ -24,7 +24,7 @@ namespace BikeShop
 
         private void AddCustomerButton_Click(object sender, EventArgs e)
         {
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
 
             sqlQuery = "INSERT INTO Customer (CustFName, CustLName, CustCCNum, CustCCPin) Values ('" 
                 + AddCustFNameTextBox.Text + "','" + AddCustLNameTextBox.Text + "','" 

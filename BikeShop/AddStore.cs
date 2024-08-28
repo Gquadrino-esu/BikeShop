@@ -65,7 +65,7 @@ namespace BikeShop
 
         private void AddStoreButton_Click(object sender, EventArgs e)
         {
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
 
             sqlQuery = "INSERT INTO Store (StoreName, StorePhone) Values ('"
                 + AddStoreNameTextBox.Text + "','" + AddStoreNumberTextBox.Text + "')";

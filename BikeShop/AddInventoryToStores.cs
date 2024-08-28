@@ -20,44 +20,12 @@ namespace BikeShop
         SqlCommand sc;
         SqlDataReader dr;
 
-        private void AddInventStoreNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CheckComboBoxes())
-            {
-                AddInventButton.Enabled = true;
-            }
-        }
-
-        private void AddInventBikeNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CheckComboBoxes())
-            {
-                AddInventButton.Enabled = true;
-            }
-        }
-
-        private void AddInventQuantityComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CheckComboBoxes())
-            {
-                AddInventButton.Enabled = true;
-            }
-        }
-
-        private void AddInventGoBackButton_Click(object sender, EventArgs e)
-        {
-            Hide();
-            Inventory inventory = new();
-            inventory.ShowDialog();
-            Close();
-        }
-
         public AddInventoryToStores()
         {
             InitializeComponent();
 
             // Gets data from database to Store drop down
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
             sqlQuery = "select * from Store";
             con = new SqlConnection(connectionString);
             con.Open();
@@ -90,6 +58,38 @@ namespace BikeShop
                 }
             }
             con.Close();
+        }
+
+        private void AddInventStoreNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CheckComboBoxes())
+            {
+                AddInventButton.Enabled = true;
+            }
+        }
+
+        private void AddInventBikeNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CheckComboBoxes())
+            {
+                AddInventButton.Enabled = true;
+            }
+        }
+
+        private void AddInventQuantityComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CheckComboBoxes())
+            {
+                AddInventButton.Enabled = true;
+            }
+        }
+
+        private void AddInventGoBackButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+            Inventory inventory = new();
+            inventory.ShowDialog();
+            Close();
         }
 
         private void AddInventButton_Click(object sender, EventArgs e)

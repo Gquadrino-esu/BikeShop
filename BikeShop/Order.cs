@@ -206,7 +206,7 @@ namespace BikeShop
             itemsList = new List<string[]>();
             bikeNameIDList = new List<int>();
 
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
 
             sqlQuery = "select * from Store";
             con = new SqlConnection(connectionString);

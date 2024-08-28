@@ -14,8 +14,9 @@ namespace BikeShop
 {
     public partial class Inventory : Form
     {
-        DataTable dt = new DataTable();
-        string connectionString, sqlQuery;
+        readonly DataTable dt = new();
+        readonly string connectionString;
+        string sqlQuery;
         SqlConnection con;
         SqlCommand sc;
         SqlDataReader dr;
@@ -27,7 +28,7 @@ namespace BikeShop
         public Inventory()
         {
             InitializeComponent();
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
             con = new SqlConnection(connectionString);
             dgv = new DataGridView();
             choice = 0;
@@ -44,7 +45,7 @@ namespace BikeShop
                 "JOIN CustomerOrderItems custItems ON custItems.CustOrderID = custOrder.CustOrderID " +
                 "JOIN BikeName bike ON bike.BikeNameID = custItems.BikeNameID " +
                 "ORDER BY StoreName, BikeName";
-            readDatathroughAdapter(sqlQuery, dt);
+            ReadDatathroughAdapter(sqlQuery, dt);
             dgv.DataSource = dt;
             con.Close();
         }
@@ -60,7 +61,7 @@ namespace BikeShop
                 "JOIN BikeName bike ON bike.BikeNameID = custItems.BikeNameID " +
                 "GROUP BY StaffFName, StaffLName, BikeName " +
                 "ORDER BY StaffLName, StaffFName";
-            readDatathroughAdapter(sqlQuery, dt);
+            ReadDatathroughAdapter(sqlQuery, dt);
             dgv.DataSource = dt;
             con.Close();
         }
@@ -179,8 +180,10 @@ namespace BikeShop
         public void RemoveTable()
         {
             Controls.Remove(dgv);
-            dgv = new DataGridView();
-            dgv.DataSource = null;
+            dgv = new()
+            {
+                DataSource = null
+            };
             dgv.Rows.Clear();
             dgv.Columns.Clear();
             dgv.Refresh();
@@ -217,7 +220,7 @@ namespace BikeShop
                     "JOIN Store storeItems ON storeItems.StoreID = custItems.StoreID " + 
                     "WHERE CustFName = '" + custFName + "' AND CustLName = '" + custLName + "'";
             }
-            readDatathroughAdapter(sqlQuery, dt);
+            ReadDatathroughAdapter(sqlQuery, dt);
             dgv.DataSource = dt;
             con.Close();
 
@@ -227,14 +230,16 @@ namespace BikeShop
         }
 
         // Got this useful method from C# SignUp form using SQL Database, made by Coding Cafe on YouTube
-        public void readDatathroughAdapter(string query, DataTable tblName)
+        public void ReadDatathroughAdapter(string query, DataTable tblName)
         {
             con.Open();
 
-            sc = new SqlCommand(sqlQuery, con);
-            sc.Connection = con;
-            sc.CommandText = query;
-            sc.CommandType = CommandType.Text;
+            sc = new SqlCommand(sqlQuery, con)
+            {
+                Connection = con,
+                CommandText = query,
+                CommandType = CommandType.Text
+            };
 
             adapter = new SqlDataAdapter(sc);
             tblName.Clear();

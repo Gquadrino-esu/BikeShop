@@ -20,7 +20,7 @@ namespace BikeShop
         private void OrderButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            OrderForm orderForm = new OrderForm();
+            OrderForm orderForm = new();
             orderForm.ShowDialog();
             this.Close();
         }
@@ -28,7 +28,7 @@ namespace BikeShop
         private void InventoryButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Inventory inventoryForm = new Inventory();
+            Inventory inventoryForm = new();
             inventoryForm.ShowDialog();
             this.Close();
         }

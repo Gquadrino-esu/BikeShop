@@ -21,14 +21,14 @@ namespace BikeShop
 
         private void AddStaffButton_Click(object sender, EventArgs e)
         {
-            string connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
 
-            string sqlQuery = "INSERT INTO Staff (StaffFName, StaffLName) Values (" + "'" + AddStaffFNameTextBox.Text + "'" + "," + "'" + AddStaffLNameTextBox.Text + "'" + ")";
+            string sqlQuery = "INSERT INTO Staff (StaffFName, StaffLName) Values ('" + AddStaffFNameTextBox.Text + "','" + AddStaffLNameTextBox.Text + "')";
 
-            SqlConnection con = new SqlConnection(connectionString);
+            SqlConnection con = new(connectionString);
 
             con.Open();
-            SqlCommand sc = new SqlCommand(sqlQuery, con);
+            SqlCommand sc = new(sqlQuery, con);
             sc.ExecuteNonQuery();
             con.Close();
         }

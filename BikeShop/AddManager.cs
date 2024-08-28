@@ -14,29 +14,20 @@ namespace BikeShop
 {
     public partial class AddManager : Form
     {
-        string connectionString, sqlQuery, storeName, staffName;
-        SqlConnection con;
+        readonly string connectionString, staffName;
+        string sqlQuery, storeName;
+        readonly SqlConnection con;
         SqlCommand sc;
         SqlDataReader dr;
         string[] manName = new string[2];
         int storeID, staffID;
-
-        private void AddManGoBackBtn_Click(object sender, EventArgs e)
-        {
-            Hide();
-            OrderForm orderForm = new();
-            orderForm.ShowDialog();
-            Close();
-        }
-
-        
 
         public AddManager()
         {
             InitializeComponent();
 
             // Gets data from database to Store drop down
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
             sqlQuery = "select * from Store";
             con = new SqlConnection(connectionString);
             con.Open();
@@ -71,6 +62,14 @@ namespace BikeShop
             }
 
             con.Close();
+        }
+
+        private void AddManGoBackBtn_Click(object sender, EventArgs e)
+        {
+            Hide();
+            OrderForm orderForm = new();
+            orderForm.ShowDialog();
+            Close();
         }
 
         private void AddStaffButton_Click(object sender, EventArgs e)

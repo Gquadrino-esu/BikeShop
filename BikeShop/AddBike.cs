@@ -14,7 +14,8 @@ namespace BikeShop
 {
     public partial class AddBike : Form
     {
-        string connectionString, sqlQuery, bikeBrand, bikeCat;
+        readonly string connectionString, bikeBrand, bikeCat;
+        string sqlQuery;
         SqlConnection con;
         SqlCommand sc;
         SqlDataReader dr;
@@ -24,7 +25,7 @@ namespace BikeShop
             InitializeComponent();
 
             // Gets data from database to BikeBrand drop down
-            connectionString = "Data Source=GABELAPTOP\\SQLEXPRESS; Initial Catalog=BikeShop; Integrated Security=True; TrustServerCertificate=True";
+            connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["ConnStringBikeShop"].ConnectionString;
             sqlQuery = "select * from BikeBrand";
             con = new SqlConnection(connectionString);
             con.Open();
@@ -172,7 +173,7 @@ namespace BikeShop
         private void AddBikeGoBackButton_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Inventory inventory = new Inventory();
+            Inventory inventory = new();
             inventory.ShowDialog();
             this.Close();
         }
